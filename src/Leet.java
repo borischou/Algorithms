@@ -39,6 +39,24 @@ class ListNode
 }
 
 public class Leet {
+    /**
+     * Find Peak Element
+     */
+    public int findPeakElement(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+        int begin = 0, end = nums.length-1;
+        while (begin < end) {
+            int mid = (begin+end)/2;
+            if (nums[mid] > nums[mid-1] && nums[mid] > nums[mid+1]) return mid;
+            if (nums[mid] < nums[mid+1] && nums[mid] > nums[mid-1] && nums[end-1] < nums[end]) { //mid右侧有peak
+
+            }
+            if (nums[mid] < nums[mid-1] && nums[mid] > nums[mid+1] && nums[begin] < nums[begin+1]) { //mid左侧有peak
+
+            }
+            if (nums[mid])
+        }
+    }
 
     /**
      * Lowest Common Ancestor of a Binary Tree
