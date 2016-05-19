@@ -198,8 +198,22 @@ public class Leet {
     /**
      * Path Sum II
      */
-    public List<List<Integer>> pathSum(TreeNode root, int num) {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        if (root == null) return list;
+        dfs(root, new ArrayList<Integer>(), list, sum);
+        return list;
+    }
 
+    private void dfs(TreeNode root, List<Integer> path, List<List<Integer>> list, int sum) {
+        if (root == null) return;
+        path.add(root.val);
+        if (root.left == null && root.right == null && sum-root.val == 0) {
+            list.add(path); //直到符合sum的path出现则添加进结果list (其他方法是不复制每一个path,当符合sum的path出现则拷贝此path进结果list)
+            return;
+        }
+        dfs(root.left, new ArrayList<Integer>(path), list, sum-root.val); //每次调用都复制一个path
+        dfs(root.right, new ArrayList<Integer>(path), list, sum-root.val);
     }
 
     /**
@@ -349,7 +363,6 @@ public class Leet {
                 top = x;
                 cur.put(x);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -364,7 +377,6 @@ public class Leet {
                 try {
                     bak.put(x);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 if (cur.size() == 1) top = x;
