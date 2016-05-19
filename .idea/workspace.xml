@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="057c0f55-f370-402e-9f05-0be4b1b66ed0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Leet.java" afterPath="$PROJECT_DIR$/src/Leet.java" />
     </list>
     <ignored path="algorithms.iws" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="Leet.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Leet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3180">
-              <caret line="215" column="74" selection-start-line="215" selection-start-column="74" selection-end-line="215" selection-end-column="74" />
+            <state relative-caret-position="315">
+              <caret line="211" column="33" selection-start-line="211" selection-start-column="33" selection-end-line="211" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -560,12 +559,12 @@
       <workItem from="1463367061600" duration="5205000" />
       <workItem from="1463448044935" duration="5030000" />
       <workItem from="1463534703524" duration="2400000" />
-      <workItem from="1463621388796" duration="2610000" />
+      <workItem from="1463621388796" duration="2923000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15245000" />
+    <option name="totallyTimeSpent" value="15558000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -625,8 +624,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Leet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3180">
-          <caret line="215" column="74" selection-start-line="215" selection-start-column="74" selection-end-line="215" selection-end-column="74" />
+        <state relative-caret-position="315">
+          <caret line="211" column="33" selection-start-line="211" selection-start-column="33" selection-end-line="211" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

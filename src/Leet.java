@@ -209,10 +209,10 @@ public class Leet {
         if (root == null) return;
         path.add(root.val);
         if (root.left == null && root.right == null && sum-root.val == 0) {
-            list.add(path); //直到符合sum的path出现则添加进结果list (其他方法是不复制每一个path,当符合sum的path出现则拷贝此path进结果list)
+            list.add(path); //2. 直到符合sum的path出现则添加进结果list (其他方法是不复制每一个path,当符合sum的path出现则拷贝此path进结果list)
             return;
         }
-        dfs(root.left, new ArrayList<Integer>(path), list, sum-root.val); //每次调用都复制一个path
+        dfs(root.left, new ArrayList<Integer>(path), list, sum-root.val); //1. 每次调用都复制一个path
         dfs(root.right, new ArrayList<Integer>(path), list, sum-root.val);
     }
 
