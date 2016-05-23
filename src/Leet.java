@@ -1,12 +1,10 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Stack;
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.HashSet;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Map;
+
+import static java.util.Arrays.sort;
 
 /**
  * Created by zhouboli on 16/5/16.
@@ -860,7 +858,6 @@ public class Leet {
         return false;
     }
 
-    //��������������ÿһλƽ���ĺ�
     public static int bitSum(int n)
     {
         int sum = 0;
@@ -874,11 +871,40 @@ public class Leet {
     }
 
     /**
+     * Majority Element II (Better change to Majority Vote Algorithm in the future)
+     */
+    public List<Integer> majorityElmentII(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        int length = nums.length;
+        if (nums == null || length == 0) return list;
+        if (length == 1) {
+            list.add(nums[0]);
+            return list;
+        }
+        if (length == 2) {
+            list.add(nums[0]);
+            if (nums[0] != nums[1]) list.add(nums[1]);
+            return list;
+        }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < length; i ++) {
+            if (map.containsKey(nums[i])) map.put(nums[i], map.get(nums[i])+1);
+            else map.put(nums[i], 1);
+        }
+        Iterator iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry)iter.next();
+            if ((Integer)entry.getValue() > length/3) list.add((Integer) entry.getKey());
+        }
+        return list;
+    }
+
+    /**
      * Majority Element
      */
     public static int majorityElement(int[] nums)
     {
-        Arrays.sort(nums);
+        sort(nums);
         return nums[nums.length/2];
     }
 
@@ -894,7 +920,7 @@ public class Leet {
         for(int i = 0; i < strs.length; i ++)
         {
             char[] tmp = strs[i].toCharArray();
-            Arrays.sort(tmp);
+            sort(tmp);
             if(map.containsKey(new String(tmp)))
             {
                 if(!list.contains(strs[map.get(new String(tmp))])) list.add(strs[map.get(new String(tmp))]);
@@ -1397,8 +1423,8 @@ public class Leet {
     {
         char[] cs = s.toCharArray();
         char[] ct = t.toCharArray();
-        Arrays.sort(cs);
-        Arrays.sort(ct);
+        sort(cs);
+        sort(ct);
         return Arrays.equals(cs, ct);
     }
 
