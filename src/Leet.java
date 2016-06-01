@@ -22,19 +22,12 @@ class TreeNode
 class ListNode
 {
     int val;
-    int key;
     ListNode next;
-    ListNode pre;
 
     public ListNode(int x)
     {
         val = x;
         next = null;
-    }
-
-    public ListNode(int key, int val) {
-        this.key = key;
-        this.val = val;
     }
 
     public String toString()
@@ -47,36 +40,45 @@ class ListNode
  * LRU Cache (Hard)
  */
 
+class LRUNode {
+    int key, val;
+    LRUNode next, pre;
+    public LRUNode (int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
 class LRUCache {
     int capacity;
-    ListNode head, tail;
-    HashMap<Integer, ListNode> map;
+    LRUNode head, tail;
+    HashMap<Integer, LRUNode> map;
     public LRUCache(int capacity) {
-        this.map = new HashMap<Integer, ListNode>();
+        this.map = new HashMap<Integer, LRUNode>();
         this.capacity = capacity;
-        this.head = new ListNode(0, 0);
-        this.tail = new ListNode(0, 0);
+        this.head = new LRUNode(0, 0);
+        this.tail = new LRUNode(0, 0);
         this.head.next = this.tail;
         this.tail.pre = this.head;
         this.tail.next = null;
         this.head.pre = null;
     }
 
-    private void addFirst(ListNode node) {
+    private void addFirst(LRUNode node) {
         node.next = this.head.next;
         node.next.pre = node;
         this.head.next = node;
         node.pre = this.head;
     }
 
-    private void delete(ListNode node) {
+    private void delete(LRUNode node) {
         node.pre.next = node.next;
         node.next.pre = node.pre;
     }
 
     public int get(int key) {
         if (this.map.get(key) != null) {
-            ListNode node = this.map.get(key);
+            LRUNode node = this.map.get(key);
             this.delete(node);
             this.addFirst(node);
             return node.val;
@@ -86,7 +88,7 @@ class LRUCache {
 
     public void set(int key, int value) {
         if (this.map.get(key) != null) {
-            ListNode node = this.map.get(key);
+            LRUNode node = this.map.get(key);
             node.val = value;
             this.delete(node);
             this.addFirst(node);
@@ -95,7 +97,7 @@ class LRUCache {
                 this.map.remove(this.tail.pre.key);
                 this.delete(this.tail.pre);
             }
-            ListNode node = new ListNode(key, value);
+            LRUNode node = new LRUNode(key, value);
             this.addFirst(node);
             this.map.put(key, node);
         }
