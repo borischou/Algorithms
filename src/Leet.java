@@ -3,6 +3,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Map;
+import java.util.HashMap;
 
 import static java.util.Arrays.sort;
 
@@ -21,22 +22,205 @@ class TreeNode
 class ListNode
 {
     int val;
+    int key;
     ListNode next;
-    //	ListNode(int val) {
-//		this.val = val;
-//	}
-    ListNode(int x)
+    ListNode pre;
+
+    public ListNode(int x)
     {
         val = x;
         next = null;
     }
+
+    public ListNode(int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+
     public String toString()
     {
         return String.valueOf(this.val);
     }
 }
 
+/**
+ * LRU Cache (Hard)
+ */
+
+class Node
+{
+    int key; int value; Node pre; Node next;
+
+    public Node(int key, int value)
+    {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+class LRUCache2
+{
+    HashMap<Integer, Node> map;
+    int capacity, count;
+    Node head, tail;
+
+    public LRUCache2(int capacity)
+    {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        head = new Node(0, 0);
+        tail = new Node(0, 0);
+        head.next = tail;
+        tail.pre = head;
+        head.pre = null;
+        tail.next = null;
+        this.count = 0;
+    }
+
+    public void deleteNode(Node node)
+    {
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+    }
+
+    public void addToHead(Node node)
+    {
+        node.next = head.next;
+        node.next.pre = node;
+        node.pre = head;
+        head.next = node;
+    }
+
+    public int get(int key)
+    {
+        if (map.get(key) != null)
+        {
+            Node node = map.get(key);
+            int result = node.value;
+            deleteNode(node);
+            addToHead(node);
+            return result;
+        }
+        return -1;
+    }
+
+    public void set(int key, int value)
+    {
+        if (map.get(key) != null)
+        {
+            Node node = map.get(key);
+            node.value = value;
+            deleteNode(node);
+            addToHead(node);
+        }
+        else
+        {
+            Node node = new Node(key, value);
+            map.put(key, node);
+            if (this.count < this.capacity)
+            {
+                System.out.println("size " + map.size());
+                addToHead(node);
+                this.count ++;
+            }
+            else
+            {
+                map.remove(tail.pre.key);
+                System.out.println("map " + map);
+                deleteNode(tail.pre);
+                addToHead(node);
+            }
+        }
+    }
+}
+
+class LRUCache {
+    int capacity;
+    ListNode head, tail;
+    HashMap<Integer, ListNode> map;
+    public LRUCache(int capacity) {
+        this.map = new HashMap<Integer, ListNode>();
+        this.capacity = capacity;
+        this.head = new ListNode(0, 0);
+        this.tail = new ListNode(0, 0);
+        this.head.next = this.tail;
+        this.tail.pre = this.head;
+        this.tail.next = null;
+        this.head.pre = null;
+    }
+
+    private void addFirst(ListNode node) {
+        node.next = this.head.next;
+        node.next.pre = node;
+        this.head.next = node;
+        node.pre = this.head;
+    }
+
+    private void delete(ListNode node) {
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
+    }
+
+    public int get(int key) {
+        if (this.map.get(key) != null) {
+            ListNode node = this.map.get(key);
+            this.delete(node);
+            this.addFirst(node);
+            return node.val;
+        }
+        return -1;
+    }
+
+    public void set(int key, int value) {
+        if (this.map.get(key) != null) {
+            ListNode node = this.map.get(key);
+            node.val = value;
+            this.delete(node);
+            this.addFirst(node);
+        } else {
+            if (this.map.size() == this.capacity) {
+                this.map.remove(this.tail.pre.key);
+                this.delete(this.tail.pre);
+            }
+            ListNode node = new ListNode(key, value);
+            this.addFirst(node);
+            this.map.put(key, node);
+        }
+    }
+}
+
 public class Leet {
+    /**
+     * Longest Consecutive Sequence
+     */
+    public int longestConsecutive(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) set.add(num);
+        int max = 1;
+        for (int num : nums) {
+            if (set.remove(num)) {
+                int val = num;
+                int count = 1;
+                while (set.remove(val-1)) val --;
+                count += num - val;
+
+                val = num;
+                while (set.remove(val + 1)) val ++;
+                count += val - num;
+                max = Math.max(max, count);
+            }
+        }
+        return max;
+    }
+
+    /**
+     * Phone Security Gesture Combinations
+     */
+//    public List<List<Integer>> gestureCombinations(int[] nums) {
+//
+//    }
+
     /**
      * Find Peak Element
      */
@@ -1432,7 +1616,10 @@ public class Leet {
 
     public static void main(String[] args) throws Exception
     {
-
+        LRUCache2 cache = new LRUCache2(1);
+        cache.set(2, 1);
+        cache.set(3, 2);
+        System.out.println(cache.get(2));
     }
 
 	/*HERE IT IS*******************************************/
