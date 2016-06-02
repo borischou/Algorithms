@@ -130,11 +130,10 @@ public class Leet {
     }
 
     /**
-     * Phone Security Gesture Combinations
+     * Possible Phone Password Combinations
      */
-//    public List<List<Integer>> gestureCombinations(int[] nums) {
-//
-//    }
+    //4-bit password: 10E4 = 10000
+    //9-number pad gesture password: A(9, 4) + A(9, 5) + ... + A(9, 9) = 985,824 (4 points least)
 
     /**
      * Find Peak Element
