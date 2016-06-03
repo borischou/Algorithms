@@ -244,13 +244,19 @@ public class Leet {
         list.add(node.val);
     }
     //Iterative
-    public List<Integer> postorderTraversalIteratively(TreeNode root)
-    {
+    public List<Integer> postorderTraversalIteratively(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         if (root == null) return list;
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
-
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                list.add(0, root.val);
+                root = root.right;
+            }
+            root = stack.pop();
+            root = root.left;
+        }
         return list;
     }
 
@@ -273,20 +279,18 @@ public class Leet {
         preorderVisit(node.right, list);
     }
     //Iteratively
-    public List<Integer> preorderTraversalIteratively(TreeNode root)
-    {
+    public List<Integer> preorderTraversalIteratively(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.push(root);
-        while (!stack.isEmpty())
-        {
-            TreeNode node = stack.pop();
-            if (node != null)
-            {
-                list.add(node.val);
-                stack.push(node.right);
-                stack.push(node.left);
+        while (!stack.isEmpty() || root != null) {
+            while (root != null) {
+                stack.push(root);
+                list.add(root.val);
+                root = root.left;
             }
+            root = stack.pop();
+            root = root.right;
         }
         return list;
     }
