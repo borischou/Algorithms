@@ -206,15 +206,12 @@ public class Leet {
         inorderVisit(node.right, list);
     }
     //Iterative
-    public List<Integer> inorderTraversalIteratively(TreeNode root)
-    {
+    public List<Integer> inorderTraversalIteratively(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         if (root == null) return list;
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        while (root != null || !stack.isEmpty())
-        {
-            while (root != null)
-            {
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
@@ -282,7 +279,6 @@ public class Leet {
     public List<Integer> preorderTraversalIteratively(TreeNode root) {
         List<Integer> list = new ArrayList<Integer>();
         Stack<TreeNode> stack = new Stack<TreeNode>();
-        stack.push(root);
         while (!stack.isEmpty() || root != null) {
             while (root != null) {
                 stack.push(root);
