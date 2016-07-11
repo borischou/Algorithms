@@ -58,16 +58,34 @@ class ClassicSortingAlgorithms
     }
 
     void quickSort(int[] a, int start, int end) {
-        if (start < end) {
-            quickSort(a, start, partition(a, start, end)-1);
-            quickSort(a, partition(a, start, end)+1, end);
+        int i = start, j = end;
+        int pivot = a[(start+end)/2]; //choose a pivot in array
+        while (i <= j) { //iterate the code below until they meet
+            while (a[j] >= pivot) j --; //find the one smaller than pivot otherwise move left
+            while (a[i] <= pivot) i ++; //find the one greater than pivot otherwise move right
+            if (i < j) { //exchange them and move on
+                int tmp = a[i];
+                a[i] = a[j];
+                a[j] = tmp;
+                i ++;
+                j --;
+            }
         }
+        if (i < end) quickSort(a, i, end);
+        if (j > start) quickSort(a, start, j);
+    }
+
+    void quickSort2(int[] a, int start, int end) {
+        int index = partition(a, start, end);
+        if (start < index - 1) quickSort2(a, start, index-1);
+        if (index < end) quickSort2(a, partition(a, start, end), end);
+
     }
 
     private int partition(int[] a, int start, int end) {
         //can be other
-        int pivot = a[(start+end)/2];
-        while (start < end) {
+        int pivot = a[(start+end)/2]; //choose a pivot in array
+        while (start < end) { //iterate the code below until they meet
             while (a[end] >= pivot) end --; //find the one smaller than pivot otherwise move left
             while (a[start] <= pivot) start ++; //find the one greater than pivot otherwise move right
             if (start < end) { //exchange them and move on
