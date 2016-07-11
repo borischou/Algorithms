@@ -68,9 +68,9 @@ class ClassicSortingAlgorithms
         //can be other
         int pivot = a[(start+end)/2];
         while (start < end) {
-            while (a[end] >= pivot) end --;
-            while (a[start] <= pivot) start ++;
-            if (start < end) {
+            while (a[end] >= pivot) end --; //find the one smaller than pivot otherwise move left
+            while (a[start] <= pivot) start ++; //find the one greater than pivot otherwise move right
+            if (start < end) { //exchange them and move on
                 int tmp = a[start];
                 a[start] = a[end];
                 a[end] = tmp;
@@ -78,7 +78,6 @@ class ClassicSortingAlgorithms
                 end --;
             }
         }
-        a[start] = pivot;
         return start;
     }
 
