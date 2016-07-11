@@ -11,6 +11,150 @@ import static java.util.Arrays.sort;
  * Created by zhouboli on 16/5/16.
  */
 
+class ClassicSortingAlgorithms
+{
+    void bubbleSort(int[] a) { //O(n^2) stable
+        int len = a.length;
+        for (int i = 0; i < len; i ++) {
+            for (int j = i; j < len; j ++) {
+                if (a[i] < a[j]) {
+                    //swap
+                    int tmp = a[i];
+                    a[i] = a[j];
+                    a[j] = tmp;
+                }
+            }
+        }
+    }
+
+    void selectSort(int[] a) { //O(n^2) unstable
+        int min = 0;
+        for (int i = 0; i < a.length; i ++) {
+            for (int j = i; j < a.length; j ++) {
+               if (a[j] < a[min]) {
+                   min = j;
+               }
+            }
+            //swap if necessary
+            if (min != i) {
+                int tmp = a[min];
+                a[min] = a[i];
+                a[i] = tmp;
+            }
+        }
+    }
+
+    void insertSort(int[] a) {
+        for (int i = 1; i < a.length; i ++) {
+            int j = i-1;
+            int cur = a[i];
+            while (j >= 0 && a[j] > cur) {
+                a[j+1] = a[j];
+                j --;
+            }
+            //since j -- as above
+            a[j+1] = cur;
+        }
+    }
+
+    void quickSort(int[] a, int start, int end) {
+        if (start < end) {
+            quickSort(a, start, partition(a, start, end)-1);
+            quickSort(a, partition(a, start, end)+1, end);
+        }
+    }
+
+    private int partition(int[] a, int start, int end) {
+        //can be other
+        int pivot = a[(start+end)/2];
+        while (start < end) {
+            while (a[end] >= pivot) end --;
+            while (a[start] <= pivot) start ++;
+            if (start < end) {
+                int tmp = a[start];
+                a[start] = a[end];
+                a[end] = tmp;
+                start ++;
+                end --;
+            }
+        }
+        a[start] = pivot;
+        return start;
+    }
+
+    int median(int[] a) {
+        Arrays.sort(a);
+        return a.length%2 == 0 ? (a[a.length/2]+a[(a.length-1)/2])/2 : a[a.length/2];
+    }
+
+    //to be tested
+    int quickMedian(int[] a) {
+        int mid = 0;
+        while (mid != a.length/2) {
+            if (mid > a.length/2) {
+                mid = partition(a, 0, mid);
+            }
+            if (mid < a.length/2) {
+                mid = partition(a, mid, a.length-1);
+            }
+        }
+        return a[mid];
+    }
+}
+
+class TrieNode
+{
+    // Initialize your data structure here.
+    boolean isWord;
+    TrieNode[] children;
+
+    public TrieNode()
+    {
+        children = new TrieNode[26];
+    }
+}
+
+public class Trie
+{
+    private TrieNode root;
+
+    public Trie()
+    {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    public void insert(String word)
+    {
+        TrieNode cur = root;
+        //按word的单词顺序遍历到底然后标记为一个单词
+        for (int i = 0; i < word.length(); i ++)
+        {
+            int index = word.charAt(i) - 'a';
+            if (cur.children[index] == null)
+            {
+                cur.children[index] = new TrieNode();
+                cur.children[index].isWord = false;
+            }
+            cur = cur.children[index];
+        }
+        cur.isWord = true;
+    }
+
+    // Returns if the word is in the trie.
+    public boolean search(String word)
+    {
+        return false;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    public boolean startsWith(String prefix)
+    {
+        return false;
+    }
+}
+
 class TreeNode
 {
     int val;
@@ -40,71 +184,134 @@ class ListNode
  * LRU Cache (Hard)
  */
 
-class LRUNode {
+class LRUNode
+{
     int key, val;
     LRUNode next, pre;
-    public LRUNode (int key, int val) {
+    public LRUNode (int key, int val)
+    {
         this.key = key;
         this.val = val;
     }
 }
 
-class LRUCache {
+class LRUCache
+{
     int capacity;
     LRUNode head, tail;
     HashMap<Integer, LRUNode> map;
-    public LRUCache(int capacity) {
-        this.map = new HashMap<Integer, LRUNode>();
+    public LRUCache(int capacity)
+    {
+        map = new HashMap<Integer, LRUNode>();
         this.capacity = capacity;
-        this.head = new LRUNode(0, 0);
-        this.tail = new LRUNode(0, 0);
-        this.head.next = this.tail;
-        this.tail.pre = this.head;
-        this.tail.next = null;
-        this.head.pre = null;
+        head = new LRUNode(0, 0);
+        tail = new LRUNode(0, 0);
+        head.next = tail;
+        tail.pre = head;
+        tail.next = null;
+        head.pre = null;
     }
 
-    private void addFirst(LRUNode node) {
-        node.next = this.head.next;
+    private void addFirst(LRUNode node)
+    {
+        node.next = head.next;
         node.next.pre = node;
-        this.head.next = node;
-        node.pre = this.head;
+        head.next = node;
+        node.pre = head;
     }
 
-    private void delete(LRUNode node) {
+    private void delete(LRUNode node)
+    {
         node.pre.next = node.next;
         node.next.pre = node.pre;
     }
 
-    public int get(int key) {
-        if (this.map.get(key) != null) {
-            LRUNode node = this.map.get(key);
-            this.delete(node);
-            this.addFirst(node);
+    public int get(int key)
+    {
+        if (map.get(key) != null)
+        {
+            LRUNode node = map.get(key);
+            delete(node);
+            addFirst(node);
             return node.val;
         }
         return -1;
     }
 
-    public void set(int key, int value) {
-        if (this.map.get(key) != null) {
-            LRUNode node = this.map.get(key);
+    public void set(int key, int value)
+    {
+        if (map.get(key) != null)
+        {
+            LRUNode node = map.get(key);
             node.val = value;
-            this.delete(node);
-            this.addFirst(node);
-        } else {
-            if (this.map.size() == this.capacity) {
-                this.map.remove(this.tail.pre.key);
-                this.delete(this.tail.pre);
+            delete(node);
+            addFirst(node);
+        }
+        else
+        {
+            if (map.size() == capacity)
+            {
+                map.remove(tail.pre.key);
+                delete(tail.pre);
             }
             LRUNode node = new LRUNode(key, value);
-            this.addFirst(node);
-            this.map.put(key, node);
+            addFirst(node);
+            map.put(key, node);
         }
     }
 }
 
-public class Leet {
+public class Leet
+{
+    /**
+     * Add Two Numbers (cannot use operator + or -)
+     */
+    int getSum(int a, int b) {
+        if (a == 0) return b;
+        if (b == 0) return a;
+        while (b != 0) {
+            a = a & b;
+            int carry = a ^ b;
+            b = carry << 1;
+        }
+        return a;
+    }
+
+    /**
+     * Intersection of Two Arrays
+     */
+    public int[] intersection(int[] nums1, int[] nums2)
+    {
+        int[] small, big;
+        if (nums1.length >= nums2.length)
+        {
+            small = nums2;
+            big = nums1;
+        }
+        else
+        {
+            small = nums1;
+            big = nums2;
+        }
+        Set<Integer> s = new HashSet<>(),
+                     r = new HashSet<>();
+        for (int x : big) s.add(x);
+        for (int x : small)
+        {
+            if (s.contains(x)) r.add(x);
+        }
+        Integer[] ra = new Integer[r.size()];
+        int[] result = new int[r.size()];
+        r.toArray(ra);
+        for (int i = 0; i < ra.length; i ++) result[i] = ra[i];
+        return result;
+    } //ugly honestly
+
+    /**
+     * Find the Duplicate Number
+     */
+
+
     /**
      * Longest Consecutive Sequence
      */
@@ -185,6 +392,66 @@ public class Leet {
         second.next = head;
         head.next = swapPairs(third);
         return second;
+    }
+
+    /**
+     * Binary Tree Level Order Traversal II (bottom-up level)
+     */
+    public static List<List<Integer>> levelOrderBottom(TreeNode root)
+    {
+        List<List<Integer>> tree = new ArrayList<List<Integer>>();
+        if (root == null) return tree;
+        addNode(tree, root, 0);
+        for(int i = 0; i < tree.size()-1; i ++)
+        {
+            int last = tree.size()-1;
+            List<Integer> tmp = tree.get(last);
+            tree.remove(last);
+            tree.add(i, tmp);
+        }
+        //addNodeHead(tree, root, 0);
+        return tree;
+    }
+
+//	private static void addNodeHead(List<List<Integer>> tree, TreeNode node, int level)
+//	{
+//		List<Integer> list;
+//		if (tree.size() < level+1)
+//		{
+//			list = new ArrayList<Integer>();
+//			tree.add(0, list);
+//		}
+//		else list = tree.get(0);
+//		list.add(node.val);
+//		level ++;
+//		if (node.left != null) addNodeHead(tree, node.left, level);
+//		if (node.right != null) addNodeHead(tree, node.right, level);
+//	}
+
+    /**
+     * Binary Tree Level Order Traversal
+     */
+    public static List<List<Integer>> levelOrder(TreeNode root)
+    {
+        List<List<Integer>> tree = new ArrayList<List<Integer>>();
+        if (root == null) return tree;
+        addNode(tree, root, 0);
+        return tree;
+    }
+
+    private static void addNode(List<List<Integer>> tree, TreeNode node, int level)
+    {
+        List<Integer> list; //prepared for current level
+        if (tree.size() < level+1) //tree first comes to this level, create a new list for this level
+        {
+            list = new ArrayList<Integer>();
+            tree.add(list); //add the new list to tree
+        }
+        else list = tree.get(level); //list already created, get it
+        list.add(node.val); //add the current node value to this list
+        level ++; //move to the next level
+        if (node.left != null) addNode(tree, node.left, level); //left not null then move to node's left
+        if (node.right != null) addNode(tree, node.right, level); //same
     }
 
     /**
@@ -618,66 +885,6 @@ public class Leet {
             if (next.length() == digits.length()) comb.add(next);
             combineBFS(digits, comb, dict, next, index+1);
         }
-    }
-
-    /**
-     * Binary Tree Level Order Traversal II (bottom-up level)
-     */
-    public static List<List<Integer>> levelOrderBottom(TreeNode root)
-    {
-        List<List<Integer>> tree = new ArrayList<List<Integer>>();
-        if (root == null) return tree;
-        addNode(tree, root, 0);
-        for(int i = 0; i < tree.size()-1; i ++)
-        {
-            int last = tree.size()-1;
-            List<Integer> tmp = tree.get(last);
-            tree.remove(last);
-            tree.add(i, tmp);
-        }
-        //addNodeHead(tree, root, 0);
-        return tree;
-    }
-
-//	private static void addNodeHead(List<List<Integer>> tree, TreeNode node, int level)
-//	{
-//		List<Integer> list;
-//		if (tree.size() < level+1)
-//		{
-//			list = new ArrayList<Integer>();
-//			tree.add(0, list);
-//		}
-//		else list = tree.get(0);
-//		list.add(node.val);
-//		level ++;
-//		if (node.left != null) addNodeHead(tree, node.left, level);
-//		if (node.right != null) addNodeHead(tree, node.right, level);
-//	}
-
-    /**
-     * Binary Tree Level Order Traversal
-     */
-    public static List<List<Integer>> levelOrder(TreeNode root)
-    {
-        List<List<Integer>> tree = new ArrayList<List<Integer>>();
-        if (root == null) return tree;
-        addNode(tree, root, 0);
-        return tree;
-    }
-
-    private static void addNode(List<List<Integer>> tree, TreeNode node, int level)
-    {
-        List<Integer> list;
-        if (tree.size() < level+1)
-        {
-            list = new ArrayList<Integer>();
-            tree.add(list);
-        }
-        else list = tree.get(level);
-        list.add(node.val);
-        level ++;
-        if (node.left != null) addNode(tree, node.left, level);
-        if (node.right != null) addNode(tree, node.right, level);
     }
 
     /**
