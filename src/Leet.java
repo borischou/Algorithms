@@ -16,12 +16,12 @@ class ClassicSortingAlgorithms
     void bubbleSort(int[] a) { //O(n^2) stable
         int len = a.length;
         for (int i = 0; i < len; i ++) {
-            for (int j = i; j < len; j ++) {
-                if (a[i] < a[j]) {
+            for (int j = i; j < len-i-1; j ++) {
+                if (a[j] < a[j+1]) {
                     //swap
-                    int tmp = a[i];
-                    a[i] = a[j];
-                    a[j] = tmp;
+                    int tmp = a[j];
+                    a[j] = a[j+1];
+                    a[j+1] = tmp;
                 }
             }
         }
@@ -131,7 +131,7 @@ class TrieNode
     }
 }
 
-public class Trie
+class Trie
 {
     private TrieNode root;
 
@@ -1498,7 +1498,7 @@ public class Leet
      * Maximum Subarray
      */
     public static int maxSubArray(int[] nums) {
-        if(1 == nums.length) return nums[0];
+        if (nums.length == 1) return nums[0];
         int sum = 0, tmp = 0;
         int max = nums[0];
         for(int i = 0; i < nums.length; i ++) {
@@ -1509,8 +1509,7 @@ public class Leet
             }
             tmp = tmp < 0 ? 0: tmp;
         }
-        System.out.println(max);
-        return 0 == sum ? max: sum;
+        return sum == 0 ? max: sum;
     }
 
     /**
@@ -1754,10 +1753,7 @@ public class Leet
 
     public static void main(String[] args) throws Exception
     {
-        LRUCache2 cache = new LRUCache2(1);
-        cache.set(2, 1);
-        cache.set(3, 2);
-        System.out.println(cache.get(2));
+
     }
 
 	/*HERE IT IS*******************************************/
