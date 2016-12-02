@@ -16,7 +16,7 @@ class ClassicSortingAlgorithms
     void bubbleSort(int[] a) { //O(n^2) stable
         int len = a.length;
         for (int i = 0; i < len; i ++) {
-            for (int j = i; j < len-i-1; j ++) {
+            for (int j = 0; j < len-i-1; j ++) {
                 if (a[j] < a[j+1]) {
                     //swap
                     int tmp = a[j];
